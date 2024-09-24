@@ -6,12 +6,9 @@ Template for a Digital Ocean Function using TypeScript.
 
 nodejs:18
 
-## Build
-
-```
-npm run build
-```
+Bun is only used for bundling.
+Any Bun specific APIs should not be used.
 
 ## Deploy
 
-Deploy the contents of `dist/index.js`.
+Place the output of `bun run build` on the clipboard and paste it in the Digital Ocean Functions UI.
