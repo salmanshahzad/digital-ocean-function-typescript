@@ -3,25 +3,20 @@
     "name": "digital-ocean-function-typescript",
     "version": "1.0.0",
     "type": "module",
-    "module": "src/index.ts",
+    "private": true,
     "scripts": {
         "build": "bun build --minify src/index.ts",
-        "check": "tsc",
-        "format": "prettier --write .",
-        "lint": "eslint src"
-    },
-    "dependencies": {
-        "axios": "^1.7.7"
+        "check": "run-s lint typecheck",
+        "lint": "biome check --write",
+        "typecheck": "tsc"
     },
     "devDependencies": {
-        "@eslint/js": "^9.11.1",
+        "@biomejs/biome": "^1.9.3",
         "@tsconfig/bun": "^1.0.7",
         "@tsconfig/strictest": "^2.0.5",
-        "@types/bun": "^1.1.10",
-        "@types/eslint__js": "^8.42.3",
-        "eslint": "^9.11.1",
-        "prettier": "^3.3.3",
-        "typescript": "^5.6.2",
-        "typescript-eslint": "^8.7.0"
+        "@types/bun": "^1.1.11",
+        "hono": "^4.6.5",
+        "npm-run-all2": "^6.2.3",
+        "typescript": "^5.6.3"
     }
 }

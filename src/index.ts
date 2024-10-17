@@ -1,21 +1,30 @@
-import axios from "axios";
+import { Hono } from "hono";
 
 import type { Args, Response } from "./types.ts";
 
+const app = new Hono();
+app.get("/", (c) => {
+    return c.json(
+        {
+            message: `Hello ${c.req.header("x-forwarded-for") ?? "unknown IP"}`,
+        },
+        200,
+    );
+});
+app.notFound((c) => {
+    return c.json({ message: "Not Found" }, 404);
+});
+app.onError((err, c) => {
+    return c.json({ message: err.message }, 500);
+});
+
 export async function main(args: Args): Promise<Response> {
-    console.log(args);
-    try {
-        const res = await axios.get(
-            "https://jsonplaceholder.typicode.com/todos/1",
-        );
-        return {
-            body: res.data,
-            statusCode: 200,
-        };
-    } catch (err) {
-        console.error(err);
-        return {
-            statusCode: 500,
-        };
-    }
+    const res = await app.request(args.http.path, {
+        headers: args.http.headers,
+        method: args.http.method,
+    });
+    return {
+        body: await res.json(),
+        statusCode: res.status,
+    };
 }
